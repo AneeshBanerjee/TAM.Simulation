@@ -10,6 +10,19 @@
 <body>
   <header class="topbar"></header>
   <main class="wrap">
+    <section id="gate" class="card" style="max-width:440px;margin:3rem auto">
+      <h1 style="font-size:1.5rem">Instructor access</h1>
+      <p class="muted">This page is for faculty. Enter the instructor password to continue.</p>
+      <form id="gateForm">
+        <div class="field">
+          <label for="pw">Password</label>
+          <input type="password" id="pw" autocomplete="current-password" style="width:100%;padding:.55rem .7rem;border:1px solid #cdd3dc;border-radius:8px;font-size:1rem">
+        </div>
+        <button class="btn" type="submit">Unlock</button>
+        <p id="gateMsg" style="color:var(--bad);margin:.8rem 0 0" aria-live="polite"></p>
+      </form>
+    </section>
+    <div id="instructorContent" class="hidden">
     <h1>Instructor guide</h1>
     <p class="muted">For faculty only. This page reveals how the model works. Ask students not to open it until after the debrief.</p>
 
@@ -93,11 +106,13 @@ utilisation       = 68.4% + Δ chargeable hours / 990,000 hours</pre>
 
     <h2>Customising the simulation</h2>
     <p>All parameters live in two files in the repository: <code>assets/js/data.js</code> (grades, levers, policies, events, benchmark strategies, score weights) and <code>assets/js/model.js</code> (model constants at the top of the file). After editing, run <code>node tests/model.test.js</code> to check that the baseline still reproduces the case and every benchmark fits the budget.</p>
+    </div>
   </main>
   <footer></footer>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/model.js"></script>
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/instructor.js"></script>
+  <script src="assets/js/gate.js"></script>
 </body>
 </html>
