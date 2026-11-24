@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulation — Meridian Hale: The Copilot Paradox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4e8c%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topbar"></header>
+  <main class="wrap">
+
+    <!-- Setup -->
+    <section id="setup" class="hidden">
+      <h1>Start the simulation</h1>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="field">
+            <label for="team">Team name</label>
+            <input type="text" id="team" placeholder="e.g. Team 3" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="seed">Class code <small>(optional)</small></label>
+            <input type="text" id="seed" placeholder="Given by your instructor" maxlength="40">
+            <small>Teams with the same class code face the same random events, so results can be compared fairly.</small>
+          </div>
+          <button class="btn" id="startBtn">Start Q1 2027</button>
+        </div>
+        <div class="card flat">
+          <h3>Before you start</h3>
+          <p>Read the <a href="case.html">case briefing</a>. Your year-two budget is <strong>£2.4m</strong>, including licences (£216k a quarter for 2,400 users). Unspent money carries forward, but you cannot borrow from future licence payments.</p>
+          <p>Each quarter you will see a pulse survey by grade. Use it to work out which UTAUT constructs are holding each group back.</p>
+          <p class="muted">Progress is saved in this browser only.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game -->
+    <section id="game" class="hidden">
+      <div class="steps" id="steps"></div>
+      <h1 id="qTitle"></h1>
+      <p class="muted" id="teamLine"></p>
+
+      <div class="event" id="event"></div>
+
+      <h2>Where you stand</h2>
+      <div class="grid grid-4" id="kpis"></div>
+
+      <div class="grid grid-2" style="margin-top:1rem">
+        <div class="card">
+          <h3>Weekly active users by grade</h3>
+          <div class="chart" id="wauChart"></div>
+        </div>
+        <div class="card">
+          <h3>Factual errors reaching clients</h3>
+          <p class="muted" style="margin:0">Estimated escaped factual errors per 100 client deliverables</p>
+          <div class="chart" id="qualChart"></div>
+        </div>
+      </div>
+
+      <h2>Quarterly pulse survey</h2>
+      <p class="muted">Mean scores on a 1–7 scale, plus the share who always verify facts and sources. Sample sizes are large enough to treat these as reliable.</p>
+      <div class="card table-wrap" id="pulse"></div>
+
+      <h2>Your decisions for <span id="qName"></span></h2>
+      <div class="layout-sim">
+        <div>
+          <div class="card">
+            <h3>Investment levers <small class="muted">(£k this quarter)</small></h3>
+            <div id="levers"></div>
+          </div>
+          <div class="card" style="margin-top:1rem">
+            <h3>Technology</h3>
+            <div id="retrieval"></div>
+          </div>
+          <div class="card" style="margin-top:1rem">
+            <h3>Firm policies <small class="muted">(stay on until you switch them off)</small></h3>
+            <div id="policies"></div>
+          </div>
+        </div>
+        <aside class="card budget">
+          <h3>Budget</h3>
+          <div class="muted" id="budgetLine"></div>
+          <div class="meter" id="meter"><div></div></div>
+          <div class="cost-lines" id="costLines"></div>
+          <p class="muted" id="budgetNote" style="font-size:.85rem;margin-top:.6rem"></p>
+          <button class="btn" id="submitBtn" style="width:100%;margin-top:.4rem">Submit decisions</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section id="result" class="hidden">
+      <div class="steps" id="steps2"></div>
+      <h1 id="rTitle"></h1>
+      <div class="grid grid-4" id="rKpis"></div>
+      <h2>What happened</h2>
+      <ul class="log" id="rLog"></ul>
+      <div class="btn-row" style="margin-top:1.5rem">
+        <button class="btn" id="nextBtn">Continue</button>
+      </div>
+    </section>
+
+    <div style="margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem" class="btn-row">
+      <button class="btn danger" id="resetBtn">Reset this browser's game</button>
+      <span class="muted" style="font-size:.85rem">Clears saved progress so a new team can play.</span>
+    </div>
+  </main>
+  <footer></footer>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/model.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/sim.js"></script>
+</body>
+</html>

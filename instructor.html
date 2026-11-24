@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instructor guide — Meridian Hale: The Copilot Paradox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4e8c%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topbar"></header>
+  <main class="wrap">
+    <h1>Instructor guide</h1>
+    <p class="muted">For faculty only. This page reveals how the model works. Ask students not to open it until after the debrief.</p>
+
+    <h2>Class results</h2>
+    <p>Ask each team to click <strong>Download results (JSON)</strong> on their debrief page and send you the file. Load all the files here to compare teams. Files are read in your browser only; nothing is uploaded.</p>
+    <div class="card">
+      <div class="btn-row">
+        <label class="btn" for="files" style="margin:0">Load team result files</label>
+        <input type="file" id="files" accept=".json,application/json" multiple class="hidden">
+        <button class="btn secondary" id="demoBtn">Show demo class (benchmark strategies)</button>
+        <button class="btn ghost" id="clearBtn">Clear</button>
+      </div>
+      <p class="muted" id="loadMsg" style="margin:.6rem 0 0"></p>
+      <div id="classOut" class="hidden" style="margin-top:1rem">
+        <div class="table-wrap" id="leaderboard"></div>
+        <div class="grid grid-2" style="margin-top:1rem">
+          <div><h3>Final weekly usage vs errors reaching clients</h3><div class="chart" id="scatter"></div></div>
+          <div><h3>What the class did with policy</h3><div class="table-wrap" id="policyMix"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Run sheet (about 3 hours, or two sessions)</h2>
+    <div class="table-wrap card"><table>
+      <thead><tr><th>Time</th><th>Activity</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Before class</td><td>Students read the case or the <a href="case.html">briefing</a></td><td>Ask them to plot Exhibit 2 by construct and grade.</td></tr>
+        <tr><td>0:00–0:20</td><td>Opening poll and diagnosis</td><td>"Mandate: yes or no?" Then a 10-minute UTAUT diagnosis of Exhibit 2 in plenary.</td></tr>
+        <tr><td>0:20–0:30</td><td>Set-up</td><td>Teams of 3–5, one laptop each. Give everyone the same <strong>class code</strong> so random events are identical.</td></tr>
+        <tr><td>0:30–1:30</td><td>Rounds Q1–Q4</td><td>12–15 minutes per round. After Q2, pause for 5 minutes: "Who met the insurer's deadline? Who has Harrow Lane back?"</td></tr>
+        <tr><td>1:30–1:45</td><td>Results upload</td><td>Teams download JSON; you load the files here.</td></tr>
+        <tr><td>1:45–2:30</td><td>Debrief</td><td>Leaderboard, then the "behind the curtain" weights. Contrast the board's original KPI with the scorecard.</td></tr>
+        <tr><td>2:30–3:00</td><td>Theory wrap-up</td><td>Limits of TAM/UTAUT: use vs appropriate use, voluntariness, calibrated trust, value realisation.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Teaching points the simulation is built to surface</h2>
+    <ol>
+      <li><strong>The Copilot paradox.</strong> A mandate (with appraisal criteria) lifts weekly usage above 70% fast, but compliance-driven use comes with less verification. Errors reaching clients rise and staff and partner sentiment fall.</li>
+      <li><strong>Segment-specific levers.</strong> Juniors are moved by social influence, partners by performance expectancy and facilitating conditions. Champions barely move partners; use-case libraries and reverse mentoring do.</li>
+      <li><strong>Calibration as a missing construct.</strong> The Q3 model upgrade raises trust everywhere. Teams without calibration training see verification habits fall, even though the tool got better.</li>
+      <li><strong>Friction has a shadow.</strong> Verification rules and licence cuts without calibration push frustrated juniors towards public AI tools, with a risk of a confidentiality breach.</li>
+      <li><strong>Time saved is not value.</strong> Only part of self-reported time saving is real, and most of that turns into chargeable capacity only with a capacity plan.</li>
+      <li><strong>Sequencing.</strong> The strongest benchmark puts guardrails in place first, then funds enablement. It meets the insurer's deadline, wins back Harrow Lane and still reaches about 75% usage.</li>
+    </ol>
+
+    <h2>How the model works</h2>
+    <div class="card">
+      <h3>1. Constructs and intention (UTAUT core)</h3>
+      <p>Each grade <em>g</em> has scores for performance expectancy (PE), effort expectancy (EE), social influence (SI) and facilitating conditions (FC) on a 1–7 scale, starting from Exhibit 2. Its weighted score is:</p>
+      <pre>score_g = w_PE·PE + w_EE·EE + w_SI·SI·m + w_FC·FC        (m = 1.3 under a mandate)</pre>
+      <p>Target usage moves from the observed baseline through a logistic link, and actual usage closes 60% of the gap each quarter:</p>
+      <pre>target_g = σ( logit(baseline_g) + 1.2 · (score_g − score_g,0) )
+intent_g ← intent_g + 0.6 · (target_g − intent_g)</pre>
+      <p>Usage is then adjusted for policy: a mandate sets a floor (grade-specific), the Restructuring ban suppresses 6.7% of each grade by 85%, and right-sizing caps licences at 1,400 users.</p>
+
+      <h3>2. Levers</h3>
+      <p>Each lever adds <code>max × multiplier_g × (1 − e^(−spend/scale))</code> to a construct every quarter, so returns diminish within a quarter. Gains in SI and FC decay by 8% a quarter towards their starting point unless they are sustained. Policies modify constructs only while switched on.</p>
+      <div class="table-wrap" id="leverTable"></div>
+
+      <h3>3. Quality (automation-bias layer)</h3>
+      <pre>error rate (AI)   = 0.28 × retrieval(0.7) × model upgrade(0.75) × citation ban(0.8)
+                    × (1 − 0.5·verify_drafters) / (1 − 0.5·verify_drafters,0)
+catch rate        = 0.39 + protocol(0.15) + 0.10·calibration level
+                    + 0.2·(manager verify − 0.52) − mandate(0.05)
+escaped errors    = 3,200 × AI share × error rate × (1 − catch) + non-AI escapes
+client incidents  ~ Poisson(escaped × 0.003)</pre>
+      <p>Verification by staff who use the tool only because of a mandate is 40% lower. AI share of deliverables is driven by usage among grades 1–2, seniors and managers.</p>
+
+      <h3>4. Value</h3>
+      <pre>real hours saved  = Σ users_g × self-reported minutes_g × realisation      (realisation 0.55 → 0.85 max)
+chargeable hours  = real hours × conversion                                  (0.25, or 0.35 with a capacity plan)
+utilisation       = 68.4% + Δ chargeable hours / 990,000 hours</pre>
+
+      <h3>5. Scorecard</h3>
+      <div class="table-wrap" id="scoreTable"></div>
+    </div>
+
+    <h2>Hidden grade weights</h2>
+    <div class="card table-wrap" id="weightTable"></div>
+
+    <h2>Customising the simulation</h2>
+    <p>All parameters live in two files in the repository: <code>assets/js/data.js</code> (grades, levers, policies, events, benchmark strategies, score weights) and <code>assets/js/model.js</code> (model constants at the top of the file). After editing, run <code>node tests/model.test.js</code> to check that the baseline still reproduces the case and every benchmark fits the budget.</p>
+  </main>
+  <footer></footer>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/model.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/instructor.js"></script>
+</body>
+</html>

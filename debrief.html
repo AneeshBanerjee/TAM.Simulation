@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debrief — Meridian Hale: The Copilot Paradox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4e8c%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topbar"></header>
+  <main class="wrap">
+    <section id="empty" class="hidden">
+      <h1>Debrief</h1>
+      <div class="card"><p>No finished game in this browser yet. <a href="simulation.html">Play all four quarters</a> to unlock the debrief, or ask your instructor to show the class results.</p></div>
+    </section>
+
+    <section id="debrief" class="hidden">
+      <h1>Debrief: <span id="teamName"></span></h1>
+      <p class="muted" id="subLine"></p>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Board scorecard</h3>
+          <div style="display:flex;align-items:baseline;gap:.8rem;margin:.4rem 0 1rem"><div class="big-score" id="overall"></div><div class="muted">overall, out of 100</div></div>
+          <div id="bars"></div>
+        </div>
+        <div class="card">
+          <h3>The original KPI vs the scorecard</h3>
+          <p id="kpiVerdict"></p>
+          <div class="table-wrap"><table id="endTable"></table></div>
+        </div>
+      </div>
+
+      <h2>How your year unfolded</h2>
+      <div class="grid grid-2">
+        <div class="card"><h3>Weekly active users by grade</h3><div class="chart" id="wauChart"></div></div>
+        <div class="card"><h3>Use and verification</h3><p class="muted" style="margin:0">Appropriate reliance = share of staff who use the tool <em>and</em> always verify</p><div class="chart" id="relChart"></div></div>
+      </div>
+
+      <h2>Your decisions</h2>
+      <div class="card table-wrap" id="decisions"></div>
+
+      <h2>Benchmarks on the same random events</h2>
+      <p>Five reference strategies were run with your class code, so they faced the same incidents and events as you.</p>
+      <div class="card table-wrap" id="bench"></div>
+
+      <h2>Behind the curtain: what drove each grade</h2>
+      <p>The simulation uses a UTAUT-style model. Each grade turns its construct scores into an intention to use, with its own <strong>hidden weights</strong>. Students saw the construct scores in the pulse survey but not the weights.</p>
+      <div class="card table-wrap" id="weights"></div>
+      <div class="grid grid-2" style="margin-top:1rem">
+        <div class="card flat">
+          <h3>What the weights say</h3>
+          <ul>
+            <li><strong>Juniors</strong> respond most to social influence. They adopt because peers and managers expect it, which is also why they verify least.</li>
+            <li><strong>Partners</strong> respond to performance expectancy and facilitating conditions, and barely at all to social influence. Evidence on their own clients' work (use-case libraries) and one-to-one help (reverse mentoring) move them; champions and appraisal criteria do not.</li>
+            <li><strong>A mandate</strong> amplifies social influence and puts a floor under usage. But usage that comes from compliance rather than intention carries 40% less verification, and reviewers under volume pressure catch fewer errors.</li>
+          </ul>
+        </div>
+        <div class="card flat">
+          <h3>What TAM and UTAUT leave out</h3>
+          <ul>
+            <li><strong>Calibrated trust.</strong> Quality depends on verification habits, which run opposite to adoption across grades (Exhibit 2).</li>
+            <li><strong>Use is not the outcome.</strong> The Q3 model upgrade raised trust for everyone; without calibration training, verification fell.</li>
+            <li><strong>Time saved is not value.</strong> Without a capacity plan, most saved time never becomes chargeable work.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Discussion</h2>
+      <ol>
+        <li>Did your team optimise for the board's original KPI (70% weekly usage) or for the scorecard? When did you notice the difference?</li>
+        <li>Which grade did your levers fail to move, and which UTAUT construct explains why?</li>
+        <li>Is perceived voluntariness a moderator in this setting, or a design choice for management?</li>
+        <li>What would you put in a year-three success definition for Meridian Assist?</li>
+      </ol>
+
+      <div class="btn-row" style="margin-top:1.5rem">
+        <button class="btn" id="dlJson">Download results (JSON for instructor)</button>
+        <button class="btn secondary" id="dlCsv">Download quarterly data (CSV)</button>
+        <button class="btn ghost" onclick="window.print()">Print</button>
+      </div>
+    </section>
+  </main>
+  <footer></footer>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/model.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/debrief.js"></script>
+</body>
+</html>
